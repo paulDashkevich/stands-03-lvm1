@@ -29,6 +29,7 @@
         выходим и ребутим ВМ exit; reboot
         удаляем временный lv: lvremove /dev/vg00-lv00 и подтверждаем акт насилия 'y' + vgremove vg00 + pvremove /dev/sdd
 ```
+
 # 2. Выделяем том под /home и /var #
 ```
         создаём том: lvcreate -L 1G -n LVHome /dev/mapper/VolGroup00
@@ -49,24 +50,24 @@
         UUID=3a98d5dd-f8a2-4ccc-aa90-8b4e2f10c645 /home       xfs     defaults        0 0
         UUID=fee24c94-daa5-44f5-a0b9-cb389efa14d4 swap        swap    defaults        0 0
 ```
+
 # 3. Создание зеркального тома /var #
- ```
+```
  	для выполнения этого пункта ДЗ достаточно просто конвертировать наш lv 'VARLV' в зеркало
  	lvconvert -m1 /dev/VolGroup00/VARLV
-
+```
 # 4. Создаю том BTRFS #
 ```
 	mkfs.btrfs /dev/sdc
 	монтирую mount /dev/sdc /mnt
 	размечаю /opt: копирую /opt   cp -pr --preserve=context /opt/. /mnt
 	добавляю запись в fstab по UUID тома с BTRFS
-```
-``` 	/etc/fstab
+
+	'/etc/fstab
 	Created by anaconda on Sat May 12 18:50:26 2018
 	Accessible filesystems, by reference, are maintained under '/dev/disk'
 	See man pages fstab(5), findfs(8), mount(8) and/or blkid(8) for more info
-```
-```
+
 	/dev/mapper/VolGroup00-LogVol00 /                     xfs     defaults        0 0
 	UUID=570897ca-e759-4c81-90cf-389da6eee4cc /boot       xfs     defaults        0 0
 	UUID=557a968a-8d39-479e-b365-8acb5604fc97 /var        xfs     defaults        0 0
@@ -74,10 +75,10 @@
 	UUID=36f38353-28d1-4b13-ae7a-7c6aa2913059 /opt        btrfs   defaults        0 0
 	UUID=fee24c94-daa5-44f5-a0b9-cb389efa14d4 swap        swap    defaults        0 0
 	
-```	
+	
 	после перезагрузки ВМ видим, что всё ОК
 ```
-# lsblk #
+**lsblk**
 ``` 	NAME                          MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
 	sda                             8:0    0   40G  0 disk
 	├─sda1                          8:1    0    1M  0 part
